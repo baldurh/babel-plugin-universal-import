@@ -32,7 +32,6 @@ module.exports = function(chunkName, options) {
   var head = document.getElementsByTagName('head')[0]
   var link = document.createElement('link')
 
-  link.href = href
   link.charset = 'utf-8'
   link.type = 'text/css'
   link.rel = 'stylesheet'
@@ -53,6 +52,7 @@ module.exports = function(chunkName, options) {
     var img = document.createElement('img')
     img.onerror = function() {
       link.onerror = img.onerror = null // avoid mem leaks in IE.
+      link.href = href
       clearTimeout(timeout)
       resolve()
     }
