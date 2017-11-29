@@ -47,19 +47,24 @@ module.exports = function(chunkName, options) {
       reject(new Error(message))
     }
 
-    // link.onload doesn't work well enough, but this will handle it
-    // since images can't load css (this is a popular fix)
-    var img = document.createElement('img')
-    img.onerror = function() {
-      link.onerror = img.onerror = null // avoid mem leaks in IE.
-      link.href = href
+    link.onload = function() {
       clearTimeout(timeout)
       resolve()
     }
 
+    // // link.onload doesn't work well enough, but this will handle it
+    // // since images can't load css (this is a popular fix)
+    // var img = document.createElement('img')
+    // img.onerror = function() {
+    //   link.onerror = img.onerror = null // avoid mem leaks in IE.
+    //   link.href = href
+    //   clearTimeout(timeout)
+    //   resolve()
+    // }
+
     timeout = setTimeout(link.onerror, link.timeout)
     head.appendChild(link)
-    img.src = href
+    // img.src = href
   })
 }
 
