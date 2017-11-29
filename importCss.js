@@ -32,6 +32,7 @@ module.exports = function(chunkName, options) {
   var head = document.getElementsByTagName('head')[0]
   var link = document.createElement('link')
 
+  link.href = href
   link.charset = 'utf-8'
   link.type = 'text/css'
   link.rel = 'stylesheet'
@@ -48,6 +49,7 @@ module.exports = function(chunkName, options) {
     }
 
     link.onload = function() {
+      link.onerror = null // avoid mem leaks in IE.
       clearTimeout(timeout)
       resolve()
     }
